@@ -3,7 +3,6 @@ FROM ghcr.io/linuxserver/baseimage-ubuntu:arm64v8-jammy
 # set version label
 ARG BUILD_DATE
 ARG VERSION
-ARG CALIBREWEB_RELEASE
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="chbmb"
 
@@ -39,13 +38,9 @@ RUN \
     python3-pkg-resources \
     unrar && \
   echo "**** install calibre-web ****" && \
-  if [ -z ${CALIBREWEB_RELEASE+x} ]; then \
-    CALIBREWEB_RELEASE=$(curl -sX GET "https://api.github.com/repos/janeczku/calibre-web/releases/latest" \
-      | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
   curl -o \
     /tmp/calibre-web.tar.gz -L \
-    https://github.com/janeczku/calibre-web/archive/${CALIBREWEB_RELEASE}.tar.gz && \
+    https://github.com/ngdio/calibre-web/archive/refs/heads/main.tar.gz && \
   mkdir -p \
     /app/calibre-web && \
   tar xf \
